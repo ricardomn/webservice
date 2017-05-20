@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<PROFISSIONAL id = "1" cpf="12345678910" nome="PROFISSIONAL 1" />
+	<PROFISSIONAL id = "2" cpf="98745624581" nome="PROFISSIONAL 2" />
+	<PROFISSIONAL id = "3" cpf="12547896510" nome="PROFISSIONAL 3" />
+	<PROFISSIONAL id = "4" cpf="12458230245" nome="PROFISSIONAL 3" />
+</dataset>
