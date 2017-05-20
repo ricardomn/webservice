@@ -11,6 +11,7 @@ public class ProfissionalTeste {
 		
 		ProfissionalDao dao = new ProfissionalDao(entityManager);
 		System.out.println((dao.listAll()));
+		JPAUtil.closeEntityManagerFactory();
 		
 	}
 }
