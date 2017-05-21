@@ -87,5 +87,13 @@ public class Profissional implements Serializable{
 	public String toString() {
 		return "Profissional [cpf=" + cpf + ", nome=" + nome + "]";
 	}
+
+	public boolean isCpfValido() {
+		if(getCpf() == null)
+			return false;
+		if(getCpf().length() == 11 )
+			return true;
+		return false;
+	}
 	
 }
