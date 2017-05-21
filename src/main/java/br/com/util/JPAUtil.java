@@ -5,7 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class JPAUtil {
-	private static final String PERSISTENCE_UNIT_NAME = "HqsqlDbPU";
+	private static String PERSISTENCE_UNIT_NAME = "HqsqlDbPU";
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
 	
@@ -23,14 +23,20 @@ public class JPAUtil {
 			throw new RuntimeException("EntityManagerFactory está fechada!");
 		}
 		if (em == null) {
-			try {
-				em = emf.createEntityManager();
-				System.out.println("Conexão aberta!");
-			} catch (javax.persistence.PersistenceException ex) {
-				System.out.println("Erro ao gerar a conexão com o banco");
-			}
+			criarEntityManager();
+		} else if (!em.getTransaction().isActive()){
+			criarEntityManager();
 		}
 		return em;
+	}
+
+	private static void criarEntityManager() {
+		try {
+			em = emf.createEntityManager();
+			System.out.println("Conexão aberta!");
+		} catch (javax.persistence.PersistenceException ex) {
+			System.out.println("Erro ao gerar a conexão com o banco");
+		}
 	}
 
 	public static void closeEntityManagerFactory() {
