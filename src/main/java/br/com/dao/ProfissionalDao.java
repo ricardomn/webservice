@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.exception.ConstraintViolationException;
-
 import br.com.entity.Profissional;
 import br.com.util.JPAUtil;
 
@@ -20,17 +18,18 @@ public class ProfissionalDao {
 		this.entityManager = entityManager;
 	}
 
-	public void salvar(Profissional profissional){
-		try{
+	public void salvar(Profissional profissional) {
+		try {
 			entityManager.getTransaction().begin();
 			entityManager.persist(profissional);
 			entityManager.getTransaction().commit();
 			JPAUtil.closeEntityManagerFactory();
-		}catch(ConstraintViolationException e) {
-			System.out.println("Constraint violada: " + e);
-		}catch (Exception e) {
-			System.out.println("Erro ao salvar: " + e);
+			
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			throw e;
 		}
+		
 	}
 	
 	public Profissional findById(Long id){
@@ -61,12 +60,19 @@ public class ProfissionalDao {
 		return profissionalMerge;
 	}
 	
-	public void delete(Profissional profissional){
+	public void delete(Profissional profissional) throws Exception{
+		
 		Profissional prof = findByCpf(profissional.getCpf());
-		entityManager.getTransaction().begin();
-		entityManager.remove(prof);
-		entityManager.getTransaction().commit();
-		JPAUtil.closeEntityManagerFactory();
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.remove(prof);
+			entityManager.getTransaction().commit();
+			JPAUtil.closeEntityManagerFactory();
+			
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			throw e;
+		}
 	}
 	
 	public List<Profissional> listAll(){
