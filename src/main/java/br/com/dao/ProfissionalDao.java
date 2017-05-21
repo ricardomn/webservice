@@ -23,8 +23,6 @@ public class ProfissionalDao {
 			entityManager.getTransaction().begin();
 			entityManager.persist(profissional);
 			entityManager.getTransaction().commit();
-			JPAUtil.closeEntityManagerFactory();
-			
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
 			throw e;
@@ -34,7 +32,6 @@ public class ProfissionalDao {
 	
 	public Profissional findById(Long id){
 		Profissional profissional =  entityManager.find(Profissional.class, id);
-		JPAUtil.closeEntityManagerFactory();
 		return profissional;
 	}
 	
@@ -44,7 +41,6 @@ public class ProfissionalDao {
 		query.setParameter("cpf", cpf);
 		try{
 			Profissional profissional = query.getSingleResult();
-			JPAUtil.closeEntityManagerFactory();
 			return profissional;
 		}catch(NoResultException e) {
 			return null;
@@ -56,7 +52,6 @@ public class ProfissionalDao {
 		entityManager.getTransaction().begin();
 		Profissional profissionalMerge =  	entityManager.merge(profissional);
 		entityManager.getTransaction().commit();
-		JPAUtil.closeEntityManagerFactory();
 		return profissionalMerge;
 	}
 	
@@ -67,7 +62,6 @@ public class ProfissionalDao {
 			entityManager.getTransaction().begin();
 			entityManager.remove(prof);
 			entityManager.getTransaction().commit();
-			JPAUtil.closeEntityManagerFactory();
 			
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
@@ -79,7 +73,6 @@ public class ProfissionalDao {
 		String jqpl = "SELECT p FROM Profissional p ORDER BY p.nome";
 		TypedQuery<Profissional> query = entityManager.createQuery(jqpl, Profissional.class);
 		List<Profissional> lista = query.getResultList();
-		JPAUtil.closeEntityManagerFactory();
 		return lista;
 	}
 }
