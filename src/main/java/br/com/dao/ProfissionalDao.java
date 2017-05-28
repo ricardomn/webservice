@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.entity.Profissional;
-import br.com.util.JPAUtil;
 
 public class ProfissionalDao {
 	
